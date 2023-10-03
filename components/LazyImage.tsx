@@ -2,11 +2,11 @@
 'use client'
 import {useRef,useEffect,useState} from "react"
 import type {ImgHTMLAttributes} from "react"
-type LazyImageProps = { src: string,onLazyLoad?:(image:HTMLImageElement)=>void }
+type LazyImageProps = { src: string,alt:string, onLazyLoad?:(image:HTMLImageElement)=>void }
 // Los sumamos, haciendo que estos sean un solo tipo de dato
 type Props = ImgHTMLAttributes<HTMLImageElement> & LazyImageProps; //Aquí está soportando las props que yo le pase, pero también las props que una imagen puede recibir
 
-function LazyImage({src,onLazyLoad,...propsImage}:Props):JSX.Element{ 
+function LazyImage({src,alt,onLazyLoad,...propsImage}:Props):JSX.Element{ 
     const [currentSrc,setCurrentSrc]=useState<string>("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4=")
     const imageRef=useRef<HTMLImageElement>(null) //Se espera null o imagen
 
@@ -31,11 +31,12 @@ function LazyImage({src,onLazyLoad,...propsImage}:Props):JSX.Element{
         }
     
     },[src,onLazyLoad])
+
     return(
         <img
         ref={imageRef} 
         src={currentSrc} 
-        alt={`Imagen zorro `} 
+        alt={alt}
         {...propsImage}/>
     )
 }
